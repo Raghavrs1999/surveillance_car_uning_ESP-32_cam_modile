@@ -79,8 +79,9 @@ static esp_err_t stream_handler(httpd_req_t *req) {
     {
       Serial.println("Camera capture failed");
       res = ESP_FAIL;
-    } else 
-    {
+    } 
+     else 
+     {
       {
         if (fb->format != PIXFORMAT_JPEG) 
         {
@@ -92,7 +93,8 @@ static esp_err_t stream_handler(httpd_req_t *req) {
             Serial.println("JPEG compression failed");
             res = ESP_FAIL;
           }
-        } else
+        }
+        else
         {
           _jpg_buf_len = fb->len;
           _jpg_buf = fb->buf;
@@ -198,6 +200,7 @@ static esp_err_t cmd_handler(httpd_req_t *req)
   /* Robot direction control */
   else if (!strcmp(variable, "car")) 
   {
+    
     if (val == 1) 
     {
       Serial.println("Forward");
@@ -206,8 +209,8 @@ static esp_err_t cmd_handler(httpd_req_t *req)
       ledcWrite(6, 0);
       ledcWrite(7, speed);
       Serial.write("Forward");
-      
     }
+    
     else if (val == 2) 
     {
       Serial.println("Turn Left");
@@ -422,7 +425,7 @@ static const char PROGMEM INDEX_HTML[] = R"rawliteral(
     <script>
         window.onload = document.getElementById("camstream").src = window.location.href.slice(0, -1) + ":81/stream";
     </script>
-    <h3 align=center><b>Designed By - Raghav Sharma, Mohit Yadav, Vaibhav Thorat, Varun Pal</b></h3>
+    <h3 align=center><b>Designed By - Raghav Sharma</b></h3>
 </body>
 
 </html>
@@ -548,18 +551,22 @@ void setup() {
   config.pin_reset = RESET_GPIO_NUM;
   config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
-  if (psramFound()) {
+  if (psramFound()) 
+  {
     config.frame_size = FRAMESIZE_QVGA;
     config.jpeg_quality = 10;
     config.fb_count = 2;
-  } else {
+  } 
+  else 
+  {
     config.frame_size = FRAMESIZE_QVGA;
     config.jpeg_quality = 12;
     config.fb_count = 1;
   }
 
   esp_err_t err = esp_camera_init(&config);
-  if (err != ESP_OK) {
+  if (err != ESP_OK)
+  {
     Serial.printf("Camera init failed with error 0x%x", err);
     return;
   }
